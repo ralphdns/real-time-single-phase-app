@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\QuestionResource;
 use App\Model\Question;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
 {
@@ -15,18 +17,10 @@ class QuestionController extends Controller
     public function index()
     {
         //
+        return QuestionResource::collection(Question::latest()->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+   
     /**
      * Store a newly created resource in storage.
      *
@@ -35,7 +29,14 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //using auth fxn, we can say only logged in users can create questions, as follows.
+        //goto the User model, make sure its related to questions, then write
+//        auth()->user()->questions()->create($request->all());
+//        return response('Created', Response::HTTP_CREATED);
+
+        //creating an object request, to the Question Model
+        Question::create($request->all());
+        return response('Created', Response::HTTP_CREATED);
     }
 
     /**
@@ -46,19 +47,15 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        //Model route binding. We goto the Question Model, 
+        //then write a function that returns the RouteKeyName as slug, instead of id
+//        return $question;
+
+        //to use resource, we wrap it around our object
+       return new QuestionResource($question);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Question $question)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
@@ -81,5 +78,7 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
+        $question->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
