@@ -10,6 +10,20 @@ use Symfony\Component\HttpFoundation\Response;
 class QuestionController extends Controller
 {
     /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+//        $this->middleware('auth:api', ['except' => ['login', 'signup']]);
+        //JWT gives better error info, than auth:api
+        //except for show and index pg, user cant have assess to the rest
+        $this->middleware('JWT', ['except' => ['index', 'show']]);
+    }
+
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
