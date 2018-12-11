@@ -1,12 +1,16 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons');
+
 
 // Variables
-@import 'variables';
+// @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/bootnpstrap';
+
+// index.js or main.js
+@import '~vuetify/dist/vuetify.min.css'; // Ensure you are using css-loader
 
 .navbar-laravel {
   background-color: #fff;
