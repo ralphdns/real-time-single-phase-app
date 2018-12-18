@@ -14,7 +14,12 @@ import Vuetify from 'vuetify'
  
 Vue.use(Vuetify)
 
+//importin Userjs to our file environ, then making the User an object of windows
+import User from './Helpers/User'
+window.User = User
+// console.log(User.hasToken())
 
+window.EventBus = new Vue();
 
 
 /**

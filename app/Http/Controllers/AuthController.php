@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\SignupRequest;
 
 class AuthController extends Controller
 {
@@ -28,7 +29,6 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -37,7 +37,7 @@ class AuthController extends Controller
     }
 
     //manually done
-    public function signup(Request $request)
+    public function signup(SignupRequest $request)
     {
         User::create($request->all());
 
@@ -84,12 +84,15 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
+     //this fxn is called in login fxn above. these are the features we get, when a user is logged in
     protected function respondWithToken($token)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user()->name
         ]);
     }
 }

@@ -21,6 +21,11 @@
         <v-btn type="submit" color="green">
             Login
         </v-btn>
+
+         <router-link to="/signup">
+        <!-- this will goto route.js, pick login link, then render its components -->
+        <v-btn type="submit" color="blue">SIGN UP</v-btn>
+      </router-link>
         
     </v-form>
 </v-container>
@@ -36,15 +41,18 @@ export default {
             }
         }
     },
+    created(){
+        //so login route doesnt run, once user is logged in
+        if(User.loggedIn()){
+            this.$router.push({name:'forum'})
+        }
+    },
 
             methods :{
                 login(){
-                    // to connect to the api route, we use axios
-                    axios.post('/api/auth/login', this.form)
-
-                    //if the form is connected to the api link, then, console.log the data, else , catch the error
-                    .then(res => console.log(res.data))
-                    .catch(error => console.log(error.response.data))
+                    //form User.js
+                    User.login(this.form)
+                    // this.$router.push({name:'forum'})
                 }
             }
 

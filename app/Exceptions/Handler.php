@@ -51,7 +51,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-//        return parent::render($request, $exception);
         if ($exception instanceof TokenBlacklistedException){
             return response(['error' => 'Token cannot be gotten, get a new one'], Response::HTTP_BAD_REQUEST);
 
@@ -64,6 +63,7 @@ class Handler extends ExceptionHandler
         } else if($exception instanceof JWTException){
             return response(['error' => 'Token is not provided'], Response::HTTP_BAD_REQUEST);
         }
+        return parent::render($request, $exception);
 
     }
 }
